@@ -12,9 +12,9 @@ import com.example.constants.AppConstants;
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerTxn implements AppConstants {
+public class CustomerAddWithTxn implements AppConstants {
 
-	static String CLAZZ = CustomerTxn.class.getSimpleName();
+	static String CLAZZ = CustomerAddWithTxn.class.getSimpleName();
 
 	/**
 	 * Add Customer
@@ -180,7 +180,7 @@ public class CustomerTxn implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerTxn service = new CustomerTxn();
+		CustomerAddWithTxn service = new CustomerAddWithTxn();
 		service.doTxn();
 	}
 }
