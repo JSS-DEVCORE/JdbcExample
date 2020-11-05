@@ -1,0 +1,12 @@
+INFO  2020-11-04/12:14:32/IST [Customer] (TestCustomerSearch.java:36) (readCustomer) Connecting to Database...
+INFO  2020-11-04/12:14:33/IST [Customer] (TestCustomerSearch.java:76) (search) Reading Customer(s) by emailAd: dev@newfound-systems.com
+INFO  2020-11-04/12:14:34/IST [Customer] (TestCustomerSearch.java:102) (search) Customer [customer_id=1, ctry_cd=KR, phone_no=null, phone_type=null, email_ad=dev@newfound-systems.com, customer_guid=87715F0C-E786-48ED-BD17-82649DF9FD8A, update_token_expiry_ts=null, update_token=null, init_insert_ts=null, last_mdfy_ts=null, last_mdfy_prog=null, last_mdfy_user=null]
+INFO  2020-11-04/12:14:34/IST [Customer] (TestCustomerSearch.java:121) (search) Done - Reading Customer(s) by emailAd: dev@newfound-systems.com
+INFO  2020-11-04/12:15:22/IST [Customer] (TestCustomerSearch.java:36) (readCustomer) Connecting to Database...
+INFO  2020-11-04/12:15:24/IST [Customer] (TestCustomerSearch.java:76) (search) Reading Customer(s) by emailAd: dev@newfound-systems.com
+INFO  2020-11-04/12:15:24/IST [Customer] (TestCustomerSearch.java:102) (search) Customer [customer_id=1, ctry_cd=KR, phone_no=null, phone_type=null, email_ad=dev@newfound-systems.com, customer_guid=87715F0C-E786-48ED-BD17-82649DF9FD8A, update_token_expiry_ts=null, update_token=null, init_insert_ts=null, last_mdfy_ts=null, last_mdfy_prog=null, last_mdfy_user=null]
+INFO  2020-11-04/12:15:24/IST [Customer] (TestCustomerSearch.java:121) (search) Done - Reading Customer(s) by emailAd: dev@newfound-systems.com
+INFO  2020-11-04/12:17:07/IST [Customer] (TestCustomerSearch.java:36) (readCustomer) Connecting to Database...
+INFO  2020-11-04/12:17:08/IST [Customer] (TestCustomerSearch.java:76) (search) Reading Customer(s) by emailAd: dev@newfound-systems.com
+INFO  2020-11-04/12:17:08/IST [Customer] (TestCustomerSearch.java:102) (search) Customer [customer_id=1, ctry_cd=KR, phone_no=null, phone_type=null, email_ad=dev@newfound-systems.com, customer_guid=87715F0C-E786-48ED-BD17-82649DF9FD8A, update_token_expiry_ts=null, update_token=null, init_insert_ts=null, last_mdfy_ts=null, last_mdfy_prog=null, last_mdfy_user=null]
+INFO  2020-11-04/12:17:08/IST [Customer] (TestCustomerSearch.java:121) (search) Done - Reading Customer(s) by emailAd: dev@newfound-systems.com
