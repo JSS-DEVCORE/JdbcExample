@@ -65,7 +65,7 @@ public class CustomerSearch implements AppConstants {
 	 * @throws SQLException
 	 */
 	private void connect() throws SQLException {
-		conn = dbService.getConnect(true);
+		conn = dbService.getConnect(true); // AutoCommit
 	}
 
 	/**
