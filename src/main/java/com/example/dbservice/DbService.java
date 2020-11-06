@@ -22,7 +22,7 @@ public class DbService implements AppConstants {
 
 	static {
 		try {
-			System.out.println("---Reading Property file...");
+			System.out.println("---Reading Property file: " + DB_PROP_FILE);
 			InputStream is = new FileInputStream(new File(DB_PROP_FILE));
 			props = new Properties();
 			props.load(is);
@@ -39,7 +39,7 @@ public class DbService implements AppConstants {
 	 * @throws SQLException
 	 */
 	public static Connection getConnect(boolean autoCommit) throws SQLException {
-		System.out.println("---Connecting to Db through Properties: " + DB_PROP_FILE);
+		System.out.println("---Getting Connection...");
 		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.jdbcUrl"),
 				props.getProperty("jdbc.jdbcUrl"), props.getProperty("jdbc.password"));
 		conn.setAutoCommit(autoCommit);
@@ -53,7 +53,7 @@ public class DbService implements AppConstants {
 	 * @throws SQLException
 	 */
 	public static void close(Connection conn) throws SQLException {
-		System.out.println("---Closing Db Connection...");
+		System.out.println("---Closing Connection...");
 		conn.close();
 	}
 }
