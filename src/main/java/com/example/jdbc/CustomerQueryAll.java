@@ -20,7 +20,6 @@ public class CustomerQueryAll implements AppConstants {
 	 * Query All Customers
 	 */
 	private void queryAll() {
-		DbService dbService = new DbService(DB_PROP_FILE);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -29,7 +28,7 @@ public class CustomerQueryAll implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = dbService.getConnect(false);
+			conn = DbService.getConnect(false);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer ";
 			/**
 			 * Prepare Statement
@@ -64,7 +63,7 @@ public class CustomerQueryAll implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					dbService.close(conn);
+					DbService.close(conn);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

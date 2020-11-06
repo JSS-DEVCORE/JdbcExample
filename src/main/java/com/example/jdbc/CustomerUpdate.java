@@ -24,7 +24,6 @@ public class CustomerUpdate implements AppConstants {
 	 * @return
 	 */
 	private boolean update(String emailAd, String phoneNo) {
-		DbService dbService = new DbService(DB_PROP_FILE);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean success = false;
@@ -34,7 +33,7 @@ public class CustomerUpdate implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = dbService.getConnect(true);
+			conn = DbService.getConnect(true);
 			String sql = " UPDATE customer SET phone_no = ?, last_mdfy_ts = CURRENT_TIMESTAMP WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -56,7 +55,7 @@ public class CustomerUpdate implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					dbService.close(conn);
+					DbService.close(conn);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

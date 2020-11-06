@@ -22,7 +22,6 @@ public class CustomerQuery implements AppConstants {
 	 * @param emailAd
 	 */
 	private void queryOne(String emailAd) {
-		DbService dbService = new DbService(DB_PROP_FILE);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -32,7 +31,7 @@ public class CustomerQuery implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = dbService.getConnect(false);
+			conn = DbService.getConnect(false);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -70,7 +69,7 @@ public class CustomerQuery implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					dbService.close(conn);
+					DbService.close(conn);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -9,51 +9,26 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.example.constants.AppConstants;
+
 /**
  * @project JdbcExample - Connection Service
  * @author User
  * @date Nov 2, 2020
  */
-public class DbService {
+public class DbService implements AppConstants {
 
-	private String propFile;
-	private Properties props = null;
+	private static Properties props = null;
 
-	private String jdbc_url;
-	private String db_user;
-	private String db_password;
-
-	/**
-	 * Default Constructor
-	 * 
-	 * @param propFile
-	 */
-	public DbService(String propFile) {
-		super();
-		this.propFile = propFile;
+	static {
 		try {
-			readProps();
-			this.jdbc_url = props.getProperty("jdbc.jdbcUrl");
-			this.db_user = props.getProperty("jdbc.username");
-			this.db_password = props.getProperty("jdbc.password");
+			System.out.println("---Reading Property file...");
+			InputStream is = new FileInputStream(new File(DB_PROP_FILE));
+			props = new Properties();
+			props.load(is);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Read Property File
-	 * 
-	 * @param propFile
-	 * @return
-	 * @throws IOException
-	 */
-	private void readProps() throws IOException {
-		System.out.println("---Reading Property file...");
-
-		InputStream is = new FileInputStream(new File(propFile));
-		props = new Properties();
-		props.load(is);
 	}
 
 	/**
@@ -63,9 +38,10 @@ public class DbService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Connection getConnect(boolean autoCommit) throws SQLException {
-		System.out.println("---Connecting to Db through Properties: " + propFile);
-		Connection conn = DriverManager.getConnection(jdbc_url, db_user, db_password);
+	public static Connection getConnect(boolean autoCommit) throws SQLException {
+		System.out.println("---Connecting to Db through Properties: " + DB_PROP_FILE);
+		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.jdbcUrl"),
+				props.getProperty("jdbc.jdbcUrl"), props.getProperty("jdbc.password"));
 		conn.setAutoCommit(autoCommit);
 		return conn;
 	}
@@ -76,7 +52,7 @@ public class DbService {
 	 * @param conn
 	 * @throws SQLException
 	 */
-	public void close(Connection conn) throws SQLException {
+	public static void close(Connection conn) throws SQLException {
 		System.out.println("---Closing Db Connection...");
 		conn.close();
 	}

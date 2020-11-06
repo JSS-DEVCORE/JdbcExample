@@ -23,7 +23,6 @@ public class CustomerDelete implements AppConstants {
 	 * @return
 	 */
 	private boolean delete(String emailAd) {
-		DbService dbService = new DbService(DB_PROP_FILE);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean success = false;
@@ -32,7 +31,7 @@ public class CustomerDelete implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = dbService.getConnect(true);
+			conn = DbService.getConnect(true);
 			String sql = " DELETE FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -52,7 +51,7 @@ public class CustomerDelete implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					dbService.close(conn);
+					DbService.close(conn);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

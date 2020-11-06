@@ -25,7 +25,6 @@ public class CustomerAdd implements AppConstants {
 	 * @return
 	 */
 	private boolean add(Customer customer) {
-		DbService dbService = new DbService(DB_PROP_FILE);
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -36,7 +35,7 @@ public class CustomerAdd implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = dbService.getConnect(true);
+			conn = DbService.getConnect(true);
 			String sql = " INSERT INTO customer (ctry_cd, phone_no, phone_type, email_ad, customer_guid, last_mdfy_user, "
 					+ " last_mdfy_prog, update_token, update_token_expiry_ts, init_insert_ts, last_mdfy_ts) "
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";
@@ -68,7 +67,7 @@ public class CustomerAdd implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					dbService.close(conn);
+					DbService.close(conn);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
