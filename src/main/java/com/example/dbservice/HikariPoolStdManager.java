@@ -32,7 +32,7 @@ public class HikariPoolStdManager {
 
 			hcfg.setPoolName(props.getProperty("jdbc.poolName"));
 
-			hcfg.setJdbcUrl(props.getProperty("jdbc.jdbcUrl"));
+			hcfg.setJdbcUrl(props.getProperty("jdbc.url"));
 			hcfg.setUsername(props.getProperty("jdbc.username"));
 			hcfg.setPassword(props.getProperty("jdbc.password"));
 

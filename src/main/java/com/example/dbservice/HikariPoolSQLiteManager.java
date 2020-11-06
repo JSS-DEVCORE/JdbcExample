@@ -31,7 +31,7 @@ public class HikariPoolSQLiteManager {
 			props.load(is);
 
 			hcfg.setPoolName(props.getProperty("jdbc.poolName"));
-			hcfg.setJdbcUrl(props.getProperty("jdbc.jdbcUrl"));
+			hcfg.setJdbcUrl(props.getProperty("jdbc.url"));
 
 			hcfg.setDriverClassName(props.getProperty("jdbc.driverClassName"));
 
