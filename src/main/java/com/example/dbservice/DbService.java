@@ -41,7 +41,7 @@ public class DbService implements AppConstants {
 	public static Connection getConnect(boolean autoCommit) throws SQLException {
 		System.out.println("---Getting Connection...");
 		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.jdbcUrl"),
-				props.getProperty("jdbc.jdbcUrl"), props.getProperty("jdbc.password"));
+				props.getProperty("jdbc.username"), props.getProperty("jdbc.password"));
 		conn.setAutoCommit(autoCommit);
 		System.out.println("---Got Connection: " + conn);
 		return conn;
