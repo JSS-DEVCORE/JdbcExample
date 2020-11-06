@@ -125,8 +125,9 @@ public class CustomerAddWithTxn implements AppConstants {
 	private void doTxn() {
 		Connection conn = null;
 		boolean success = false;
+		boolean autoCommit = false;
 		try {
-			conn = DbService.getConnect(false);
+			conn = DbService.getConnect(autoCommit);
 			/**
 			 * INSERT Customer in a Transaction
 			 */
@@ -166,7 +167,7 @@ public class CustomerAddWithTxn implements AppConstants {
 						conn.rollback();
 					}
 					if (conn != null) {
-						DbService.close(conn);
+						conn.close();
 					}
 				}
 			} catch (SQLException e) {

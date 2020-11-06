@@ -24,11 +24,12 @@ public class CustomerQueryAll implements AppConstants {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		System.out.println("Reading all Customer(s)...");
+		boolean autoCommit = true;
 		try {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(false);
+			conn = DbService.getConnect(autoCommit);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer ";
 			/**
 			 * Prepare Statement
@@ -63,7 +64,7 @@ public class CustomerQueryAll implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					DbService.close(conn);
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

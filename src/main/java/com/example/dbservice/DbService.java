@@ -43,17 +43,7 @@ public class DbService implements AppConstants {
 		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.jdbcUrl"),
 				props.getProperty("jdbc.jdbcUrl"), props.getProperty("jdbc.password"));
 		conn.setAutoCommit(autoCommit);
+		System.out.println("---Got Connection: " + conn);
 		return conn;
-	}
-
-	/**
-	 * Close Connection
-	 * 
-	 * @param conn
-	 * @throws SQLException
-	 */
-	public static void close(Connection conn) throws SQLException {
-		System.out.println("---Closing Connection...");
-		conn.close();
 	}
 }

@@ -26,12 +26,13 @@ public class CustomerQuery implements AppConstants {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		boolean success = false;
+		boolean autoCommit = true;
 		System.out.println("Reading Customer(s) by emailAd: " + emailAd);
 		try {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(false);
+			conn = DbService.getConnect(autoCommit);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -69,7 +70,7 @@ public class CustomerQuery implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					DbService.close(conn);
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

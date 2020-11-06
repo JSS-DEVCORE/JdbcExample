@@ -16,9 +16,9 @@ import org.apache.logging.log4j.Logger;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class HikariPoolManager {
+public class HikariPoolStdManager {
 
-	private static final Logger logger = LogManager.getLogger(HikariPoolManager.class);
+	private static final Logger logger = LogManager.getLogger(HikariPoolStdManager.class);
 
 	private static HikariConfig hcfg = new HikariConfig();
 	private static HikariDataSource hds = null;
@@ -26,7 +26,7 @@ public class HikariPoolManager {
 	static {
 		logger.info("BEGIN - Creating Connection Pool...");
 		try {
-			InputStream is = new FileInputStream(new File("config/jdbc-sqlserver.properties"));
+			InputStream is = new FileInputStream(new File("config/jdbc-informix.properties"));
 			Properties props = new Properties();
 			props.load(is);
 

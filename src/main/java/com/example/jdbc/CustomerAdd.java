@@ -29,13 +29,14 @@ public class CustomerAdd implements AppConstants {
 		PreparedStatement pstmt = null;
 		
 		boolean success = false;
+		boolean autoCommit = true;
 		System.out.println("Adding Customer...");
 
 		try {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(true);
+			conn = DbService.getConnect(autoCommit);
 			String sql = " INSERT INTO customer (ctry_cd, phone_no, phone_type, email_ad, customer_guid, last_mdfy_user, "
 					+ " last_mdfy_prog, update_token, update_token_expiry_ts, init_insert_ts, last_mdfy_ts) "
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";
@@ -67,7 +68,7 @@ public class CustomerAdd implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					DbService.close(conn);
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

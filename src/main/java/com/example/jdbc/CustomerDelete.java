@@ -26,12 +26,13 @@ public class CustomerDelete implements AppConstants {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean success = false;
+		boolean autoCommit = true;
 		System.out.println("Deleting Customer by EmailAd: " + emailAd);
 		try {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(true);
+			conn = DbService.getConnect(autoCommit);
 			String sql = " DELETE FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -51,7 +52,7 @@ public class CustomerDelete implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					DbService.close(conn);
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

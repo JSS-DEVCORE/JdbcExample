@@ -15,28 +15,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.HikariPoolManager;
-import com.example.model.Customer;
+import com.example.dbservice.HikariPoolStdManager;
+import com.example.model.Country;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class CustomerSearchWithPool implements AppConstants {
+public class CustomerQueryWithPoolUsingStd implements AppConstants {
 
-	private static final Logger logger = LogManager.getLogger(CustomerSearchWithPool.class);
+	private static final Logger logger = LogManager.getLogger(CustomerQueryWithPoolUsingStd.class);
 
 	/**
-	 * Multiple Search
+	 * Start
 	 * 
 	 * @throws SQLException
 	 */
 	private void execute() throws SQLException {
-		HikariDataSource hds = HikariPoolManager.getDataSource();
+		HikariDataSource hds = HikariPoolStdManager.getDataSource();
 		try {
-			for (String emailAd : new String[] { "john@somewhere.com", "test@gmail.com", "dev@newfound-systems.com" }) {
+			for (String ctryCd : new String[] { "IN", "US", "SG", "JP", "XX", "FR", "GB", "AE" }) {
 				long startTime = new Date().getTime();
 				/**
-				 * Search Customer
+				 * Search Country
 				 */
-				search(hds, emailAd);
+				search(hds, ctryCd);
 				long endTime = new Date().getTime();
 				/**
 				 * Compute Time Taken
@@ -55,19 +55,18 @@ public class CustomerSearchWithPool implements AppConstants {
 	}
 
 	/**
-	 * Search Customer
+	 * Search Country
 	 * 
-	 * @param ds
-	 * 
-	 * @param emailAd
+	 * @param hds
+	 * @param country_cd
 	 */
-	private void search(HikariDataSource hds, String emailAd) {
-		logger.info("\n===Reading Customer(s) by emailAd: " + emailAd);
+	private void search(HikariDataSource hds, String country_cd) {
+		logger.info("\n===Reading Country(s) by Ctry: " + country_cd);
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		Customer customer = null;
+		Country country = null;
 		boolean success = false;
 		Connection conn = null;
 		try {
@@ -76,28 +75,24 @@ public class CustomerSearchWithPool implements AppConstants {
 			 */
 			conn = hds.getConnection();
 			logger.info("Connection: " + conn);
-			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer WHERE email_ad = ? ";
+			String sql = " SELECT country_id, country_cd, country_nm FROM country WHERE country_cd = ? ";
 			/**
 			 * Prepare Statement
 			 */
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, emailAd);
+			pstmt.setString(1, country_cd);
 			/**
 			 * Get Result Set
 			 */
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				customer = new Customer();
+				country = new Country();
 				success = true;
 
-				customer.setCustomer_id(rs.getLong("customer_id"));
-				customer.setCtry_cd(rs.getString("ctry_cd"));
-				customer.setEmail_ad(rs.getString("email_ad"));
-				/**
-				 * You can also use Query Column Number - Not Recommended though
-				 */
-				customer.setCustomer_guid(rs.getString(5));
-				logger.info(customer);
+				country.setCountry_id(rs.getLong("country_id"));
+				country.setCountry_cd(rs.getString("country_cd"));
+				country.setCountry_nm(rs.getString("country_nm"));
+				logger.info(country);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -117,9 +112,9 @@ public class CustomerSearchWithPool implements AppConstants {
 			}
 		}
 		if (!success) {
-			logger.warn("Customer NOT FOUND for emailAd: " + emailAd);
+			logger.warn("Country NOT FOUND for Ctry: " + country_cd);
 		} else {
-			logger.info("Done - Reading Customer(s) by emailAd: " + emailAd);
+			logger.info("Done - Reading Country(s) by Ctry: " + country_cd);
 		}
 	}
 
@@ -130,7 +125,7 @@ public class CustomerSearchWithPool implements AppConstants {
 	 */
 	public static void main(String[] args) {
 		try {
-			new CustomerSearchWithPool().execute();
+			new CustomerQueryWithPoolUsingStd().execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

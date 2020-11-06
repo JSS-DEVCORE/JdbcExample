@@ -27,13 +27,14 @@ public class CustomerUpdate implements AppConstants {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean success = false;
+		boolean autoCommit = true;
 		
 		System.out.println("Updating Customer PhoneNo by EmailAd: " + emailAd);
 		try {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(true);
+			conn = DbService.getConnect(autoCommit);
 			String sql = " UPDATE customer SET phone_no = ?, last_mdfy_ts = CURRENT_TIMESTAMP WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -55,7 +56,7 @@ public class CustomerUpdate implements AppConstants {
 					pstmt.close();
 				}
 				if (conn != null) {
-					DbService.close(conn);
+					conn.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
