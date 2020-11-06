@@ -1,5 +1,7 @@
-package com.example.jdbc;
+package com.example.dbservice;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -14,7 +16,12 @@ import java.util.Properties;
  */
 public class DbService {
 
-	String propFile;
+	private String propFile;
+	private Properties props = null;
+
+	private String jdbc_url;
+	private String db_user;
+	private String db_password;
 
 	/**
 	 * Default Constructor
@@ -24,6 +31,14 @@ public class DbService {
 	public DbService(String propFile) {
 		super();
 		this.propFile = propFile;
+		try {
+			readProps();
+			this.jdbc_url = props.getProperty("jdbc.jdbcUrl");
+			this.db_user = props.getProperty("jdbc.username");
+			this.db_password = props.getProperty("jdbc.password");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -33,14 +48,12 @@ public class DbService {
 	 * @return
 	 * @throws IOException
 	 */
-	private Properties readProps() throws IOException {
+	private void readProps() throws IOException {
 		System.out.println("---Reading Property file...");
 
-		InputStream is = getClass().getClassLoader().getResourceAsStream(propFile);
-		Properties props = new Properties();
+		InputStream is = new FileInputStream(new File(propFile));
+		props = new Properties();
 		props.load(is);
-
-		return props;
 	}
 
 	/**
@@ -52,16 +65,6 @@ public class DbService {
 	 */
 	public Connection getConnect(boolean autoCommit) throws SQLException {
 		System.out.println("---Connecting to Db through Properties: " + propFile);
-		Properties props = null;
-		try {
-			props = readProps();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String jdbc_url = props.getProperty("jdbc.url");
-		String db_user = props.getProperty("jdbc.username");
-		String db_password = props.getProperty("jdbc.password");
-
 		Connection conn = DriverManager.getConnection(jdbc_url, db_user, db_password);
 		conn.setAutoCommit(autoCommit);
 		return conn;

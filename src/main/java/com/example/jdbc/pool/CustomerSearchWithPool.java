@@ -3,96 +3,79 @@
  * @author		User
  * @date		Nov 4, 2020
  */
-package com.example.jdbc;
+package com.example.jdbc.pool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.HikariPoolManager;
 import com.example.model.Customer;
+import com.zaxxer.hikari.HikariDataSource;
 
-public class CustomerSearch implements AppConstants {
+public class CustomerSearchWithPool implements AppConstants {
 
-	private static final Logger logger = LogManager.getLogger(CustomerSearch.class);
-
-	private DbService dbService = null;
-	private Connection conn = null;
+	private static final Logger logger = LogManager.getLogger(CustomerSearchWithPool.class);
 
 	/**
-	 * Search Customer
+	 * Multiple Search
 	 * 
 	 * @throws SQLException
 	 */
-	public void action() {
+	private void execute() throws SQLException {
+		HikariDataSource hds = HikariPoolManager.getDataSource();
 		try {
-			/**
-			 * Get DbService Instance
-			 */
-			dbService = new DbService(DB_PROP_FILE);
-			/**
-			 * Open Connection
-			 */
-			logger.info("Opening Connection to Database...");
-			connect();
-			/**
-			 * Search Customer by EmailAd
-			 */
-			search("john@somewhere.com");
-		} catch (SQLException e) {
+			for (String emailAd : new String[] { "john@somewhere.com", "test@gmail.com", "dev@newfound-systems.com" }) {
+				long startTime = new Date().getTime();
+				/**
+				 * Search Customer
+				 */
+				search(hds, emailAd);
+				long endTime = new Date().getTime();
+				/**
+				 * Compute Time Taken
+				 */
+				long difference = endTime - startTime;
+				logger.info("---Action completed in " + difference + " ms");
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			/**
-			 * Disconnect
+			 * Shutdown DataSource
 			 */
-			logger.info("Closing Connection from Database...");
-			try {
-				if (conn != null) {
-					disconect();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			hds.close();
 		}
 	}
 
 	/**
-	 * Connect to Database
-	 * 
-	 * @throws SQLException
-	 */
-	private void connect() throws SQLException {
-		conn = dbService.getConnect(true); // AutoCommit
-	}
-
-	/**
-	 * Close Connection
-	 * 
-	 * @throws SQLException
-	 */
-	private void disconect() throws SQLException {
-		dbService.close(conn);
-	}
-
-	/**
 	 * Search Customer
+	 * 
+	 * @param ds
 	 * 
 	 * @param emailAd
 	 */
-	private void search(String emailAd) {
-		logger.info("Reading Customer(s) by emailAd: " + emailAd);
-		
+	private void search(HikariDataSource hds, String emailAd) {
+		logger.info("\n===Reading Customer(s) by emailAd: " + emailAd);
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		Customer customer = null;
 		boolean success = false;
+		Connection conn = null;
 		try {
+			/**
+			 * Get Connection from DataSource
+			 */
+			conn = hds.getConnection();
+			logger.info("Connection: " + conn);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
@@ -126,6 +109,9 @@ public class CustomerSearch implements AppConstants {
 				if (pstmt != null) {
 					pstmt.close();
 				}
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -143,6 +129,10 @@ public class CustomerSearch implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new CustomerSearch().action();
+		try {
+			new CustomerSearchWithPool().execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
