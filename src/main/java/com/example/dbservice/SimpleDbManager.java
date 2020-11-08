@@ -16,14 +16,14 @@ import com.example.constants.AppConstants;
  * @author User
  * @date Nov 2, 2020
  */
-public class DbService implements AppConstants {
+public class SimpleDbManager implements AppConstants {
 
 	private static Properties props = null;
 
 	static {
 		try {
-			System.out.println("---Reading Property file: " + DB_PROP_FILE);
-			InputStream is = new FileInputStream(new File(DB_PROP_FILE));
+			System.out.println("---Reading Property file: " + DB_SQLITE_PROP_FILE);
+			InputStream is = new FileInputStream(new File(DB_SQLITE_PROP_FILE));
 			props = new Properties();
 			props.load(is);
 		} catch (IOException e) {
@@ -38,7 +38,7 @@ public class DbService implements AppConstants {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Connection getConnect(boolean autoCommit) throws SQLException {
+	public static Connection getConnection(boolean autoCommit) throws SQLException {
 		System.out.println("---Getting Connection...");
 		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.url"),
 				props.getProperty("jdbc.username"), props.getProperty("jdbc.password"));

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.SimpleDbManager;
 
 /**
  * @project JdbcExample - Update Customer
@@ -34,7 +34,7 @@ public class CustomerUpdate implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(autoCommit);
+			conn = SimpleDbManager.getConnection(autoCommit);
 			String sql = " UPDATE customer SET phone_no = ?, last_mdfy_ts = CURRENT_TIMESTAMP WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement

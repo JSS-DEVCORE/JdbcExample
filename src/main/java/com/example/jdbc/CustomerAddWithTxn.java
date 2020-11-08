@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.SimpleDbManager;
 import com.example.model.Customer;
 
 /**
@@ -127,7 +127,7 @@ public class CustomerAddWithTxn implements AppConstants {
 		boolean success = false;
 		boolean autoCommit = false;
 		try {
-			conn = DbService.getConnect(autoCommit);
+			conn = SimpleDbManager.getConnection(autoCommit);
 			/**
 			 * INSERT Customer in a Transaction
 			 */

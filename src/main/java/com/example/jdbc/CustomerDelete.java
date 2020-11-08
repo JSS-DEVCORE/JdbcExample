@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.SimpleDbManager;
 
 /**
  * @project JdbcExample - Delete Customer
@@ -32,7 +32,7 @@ public class CustomerDelete implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(autoCommit);
+			conn = SimpleDbManager.getConnection(autoCommit);
 			String sql = " DELETE FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement

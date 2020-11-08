@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.SimpleDbManager;
 import com.example.model.Customer;
 
 /**
@@ -36,7 +36,7 @@ public class CustomerAdd implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(autoCommit);
+			conn = SimpleDbManager.getConnection(autoCommit);
 			String sql = " INSERT INTO customer (ctry_cd, phone_no, phone_type, email_ad, customer_guid, last_mdfy_user, "
 					+ " last_mdfy_prog, update_token, update_token_expiry_ts, init_insert_ts, last_mdfy_ts) "
 					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";

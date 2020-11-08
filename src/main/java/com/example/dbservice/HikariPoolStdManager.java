@@ -13,10 +13,11 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.example.constants.AppConstants;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class HikariPoolStdManager {
+public class HikariPoolStdManager implements AppConstants {
 
 	private static final Logger logger = LogManager.getLogger(HikariPoolStdManager.class);
 
@@ -26,7 +27,7 @@ public class HikariPoolStdManager {
 	static {
 		logger.info("BEGIN - Creating Connection Pool...");
 		try {
-			InputStream is = new FileInputStream(new File("config/jdbc-informix.properties"));
+			InputStream is = new FileInputStream(new File(DB_H2_PROP_FILE));
 			Properties props = new Properties();
 			props.load(is);
 
@@ -40,7 +41,7 @@ public class HikariPoolStdManager {
 			hcfg.setMinimumIdle(Integer.parseInt(props.getProperty("jdbc.initialSize")));
 			hcfg.setAutoCommit(false);
 			hcfg.setDriverClassName(props.getProperty("jdbc.driverClassName"));
-
+			
 			hcfg.addDataSourceProperty("cachePrepStmts", "true");
 			hcfg.addDataSourceProperty("prepStmtCacheSize", "10");
 			hcfg.addDataSourceProperty("prepStmtCacheSqlLimit", "128");

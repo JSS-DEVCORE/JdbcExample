@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.DbService;
+import com.example.dbservice.SimpleDbManager;
 import com.example.model.Customer;
 
 /**
@@ -29,7 +29,7 @@ public class CustomerQueryAll implements AppConstants {
 			/**
 			 * Get Connection
 			 */
-			conn = DbService.getConnect(autoCommit);
+			conn = SimpleDbManager.getConnection(autoCommit);
 			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer ";
 			/**
 			 * Prepare Statement

@@ -6,11 +6,12 @@
 package com.example.jdbc.pool;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,9 +20,9 @@ import com.example.dbservice.HikariPoolStdManager;
 import com.example.model.Country;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class CustomerQueryWithPoolUsingStd implements AppConstants {
+public class CustomerQueryCP implements AppConstants {
 
-	private static final Logger logger = LogManager.getLogger(CustomerQueryWithPoolUsingStd.class);
+	private static final Logger logger = LogManager.getLogger(CustomerQueryCP.class);
 
 	/**
 	 * Start
@@ -31,12 +32,12 @@ public class CustomerQueryWithPoolUsingStd implements AppConstants {
 	private void execute() throws SQLException {
 		HikariDataSource hds = HikariPoolStdManager.getDataSource();
 		try {
-			for (String ctryCd : new String[] { "IN", "US", "SG", "JP", "XX", "FR", "GB", "AE" }) {
+			for (String ctry_cd : new String[] { "IN", "US", "SG", "JP", "X1", "FR", "GB", "AE" }) {
 				long startTime = new Date().getTime();
 				/**
 				 * Search Country
 				 */
-				search(hds, ctryCd);
+				search(hds, ctry_cd);
 				long endTime = new Date().getTime();
 				/**
 				 * Compute Time Taken
@@ -58,16 +59,10 @@ public class CustomerQueryWithPoolUsingStd implements AppConstants {
 	 * Search Country
 	 * 
 	 * @param hds
-	 * @param country_cd
+	 * @param ctry_cd
 	 */
-	private void search(HikariDataSource hds, String country_cd) {
-		logger.info("\n===Reading Country(s) by Ctry: " + country_cd);
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		Country country = null;
-		boolean success = false;
+	private void search(HikariDataSource hds, String ctry_cd) {
+		logger.info("\n===Reading Country by Ctry: " + ctry_cd);
 		Connection conn = null;
 		try {
 			/**
@@ -75,35 +70,22 @@ public class CustomerQueryWithPoolUsingStd implements AppConstants {
 			 */
 			conn = hds.getConnection();
 			logger.info("Connection: " + conn);
-			String sql = " SELECT country_id, country_cd, country_nm FROM country WHERE country_cd = ? ";
+			String sql = " SELECT * FROM country WHERE ctry_cd = ? ";
 			/**
-			 * Prepare Statement
+			 * Handler Bean for ResultSet
 			 */
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, country_cd);
+			BeanListHandler<Country> beanListHandler = new BeanListHandler<>(Country.class);
 			/**
-			 * Get Result Set
+			 * Fetch Data
 			 */
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				country = new Country();
-				success = true;
-
-				country.setCountry_id(rs.getLong("country_id"));
-				country.setCountry_cd(rs.getString("country_cd"));
-				country.setCountry_nm(rs.getString("country_nm"));
+			List<Country> countries = new QueryRunner().query(conn, sql, beanListHandler, new Object[] { ctry_cd });
+			for (Country country : countries) {
 				logger.info(country);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -111,11 +93,7 @@ public class CustomerQueryWithPoolUsingStd implements AppConstants {
 				e.printStackTrace();
 			}
 		}
-		if (!success) {
-			logger.warn("Country NOT FOUND for Ctry: " + country_cd);
-		} else {
-			logger.info("Done - Reading Country(s) by Ctry: " + country_cd);
-		}
+		logger.info("Done - Reading Country by Ctry: " + ctry_cd);
 	}
 
 	/**
@@ -125,7 +103,7 @@ public class CustomerQueryWithPoolUsingStd implements AppConstants {
 	 */
 	public static void main(String[] args) {
 		try {
-			new CustomerQueryWithPoolUsingStd().execute();
+			new CustomerQueryCP().execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
