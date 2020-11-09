@@ -1,4 +1,4 @@
-package com.example.jdbc;
+package com.example.sqlite.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,32 +8,34 @@ import com.example.constants.AppConstants;
 import com.example.dbservice.SimpleDbManager;
 
 /**
- * @project JdbcExample - Delete Customer
+ * @project JdbcExample - Update Customer
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerDelete implements AppConstants {
+public class CustomerUpdate implements AppConstants {
 
-	static String CLAZZ = CustomerDelete.class.getSimpleName();
+	static String CLAZZ = CustomerUpdate.class.getSimpleName();
 
 	/**
-	 * Delete by Email Address
+	 * Update Phone Number
 	 * 
 	 * @param emailAd
+	 * @param phoneNo
 	 * @return
 	 */
-	private boolean delete(String emailAd) {
+	private boolean update(String emailAd, String phoneNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		boolean success = false;
 		boolean autoCommit = true;
-		System.out.println("Deleting Customer by EmailAd: " + emailAd);
+		
+		System.out.println("Updating Customer PhoneNo by EmailAd: " + emailAd);
 		try {
 			/**
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " DELETE FROM customer WHERE email_ad = ? ";
+			String sql = " UPDATE customer SET phone_no = ?, last_mdfy_ts = CURRENT_TIMESTAMP WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
 			 */
@@ -41,7 +43,9 @@ public class CustomerDelete implements AppConstants {
 			/**
 			 * Set Value for Delete
 			 */
-			pstmt.setString(1, emailAd);
+			pstmt.setString(1, phoneNo);
+			pstmt.setString(2, emailAd);
+			
 			int rowsUpdated = pstmt.executeUpdate();
 			success = rowsUpdated > 0;
 		} catch (SQLException e) {
@@ -58,7 +62,7 @@ public class CustomerDelete implements AppConstants {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Done - Deleting Customer by EmailAd: " + emailAd + " success: " + success);
+		System.out.println("Done - Updating Customer PhoneNo by EmailAd: " + emailAd + " success: " + success);
 		System.out.println("=================================");
 
 		return success;
@@ -70,7 +74,7 @@ public class CustomerDelete implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerDelete service = new CustomerDelete();
-		service.delete("john@somewhere.com");
+		CustomerUpdate service = new CustomerUpdate();
+		service.update("john.hr@somewhere.com", "2233445566");
 	}
 }

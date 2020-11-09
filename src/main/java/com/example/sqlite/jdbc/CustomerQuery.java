@@ -1,4 +1,4 @@
-package com.example.jdbc;
+package com.example.sqlite.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,41 +10,49 @@ import com.example.dbservice.SimpleDbManager;
 import com.example.model.Customer;
 
 /**
- * @project JdbcExample - Query All Customer
+ * @project JdbcExample - Query Customer
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerQueryAll implements AppConstants {
+public class CustomerQuery implements AppConstants {
 
 	/**
-	 * Query All Customers
+	 * Query by Email Ad
+	 * 
+	 * @param emailAd
 	 */
-	private void queryAll() {
+	private void queryOne(String emailAd) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		System.out.println("Reading all Customer(s)...");
+		boolean success = false;
 		boolean autoCommit = true;
+		System.out.println("Reading Customer(s) by emailAd: " + emailAd);
 		try {
 			/**
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer ";
+			String sql = " SELECT customer_id, ctry_cd, customer_name, email_ad, phone_no, customer_guid "
+					+ " FROM customer WHERE email_ad = ? ";
 			/**
 			 * Prepare Statement
 			 */
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, emailAd);
 			/**
 			 * Get Result Set
 			 */
 			rs = pstmt.executeQuery();
+
 			Customer customer = null;
 			while (rs.next()) {
 				customer = new Customer();
+				success = true;
 
 				customer.setCustomer_id(rs.getLong("customer_id"));
 				customer.setCtry_cd(rs.getString("ctry_cd"));
+				customer.setCustomer_name(rs.getString("customer_name"));
 				customer.setEmail_ad(rs.getString("email_ad"));
 				/**
 				 * You can also use Query Column Number - Not Recommended though
@@ -70,7 +78,11 @@ public class CustomerQueryAll implements AppConstants {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Done - Reading all Customer(s)...");
+		if (!success) {
+			System.err.println("Customer NOT FOUND for emailAd: " + emailAd);
+		} else {
+			System.out.println("Done - Reading Customer(s) by emailAd: " + emailAd);
+		}
 		System.out.println("=================================");
 	}
 
@@ -80,7 +92,7 @@ public class CustomerQueryAll implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerQueryAll service = new CustomerQueryAll();
-		service.queryAll();
+		CustomerQuery service = new CustomerQuery();
+		service.queryOne("john.hr@somewhere.com");
 	}
 }

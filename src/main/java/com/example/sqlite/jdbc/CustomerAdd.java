@@ -1,4 +1,4 @@
-package com.example.jdbc;
+package com.example.sqlite.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,9 +37,9 @@ public class CustomerAdd implements AppConstants {
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " INSERT INTO customer (ctry_cd, phone_no, phone_type, email_ad, customer_guid, last_mdfy_user, "
-					+ " last_mdfy_prog, update_token, update_token_expiry_ts, init_insert_ts, last_mdfy_ts) "
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";
+			String sql = " INSERT INTO customer (ctry_cd, customer_name, phone_no, phone_type, email_ad, customer_guid, "
+					+ " last_mdfy_user, last_mdfy_prog, init_insert_ts, last_mdfy_ts) "
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";
 			/**
 			 * Prepare Statement
 			 */
@@ -48,15 +48,14 @@ public class CustomerAdd implements AppConstants {
 			 * Set Values for INSERT
 			 */
 			pstmt.setString(1, customer.getCtry_cd());
-			pstmt.setString(2, customer.getPhone_no());
-			pstmt.setString(3, customer.getPhone_type());
-			pstmt.setString(4, customer.getEmail_ad());
-			pstmt.setString(5, customer.getCustomer_guid());
+			pstmt.setString(2, customer.getCustomer_name());
+			pstmt.setString(3, customer.getPhone_no());
+			pstmt.setString(4, customer.getPhone_type());
+			pstmt.setString(5, customer.getEmail_ad());
+			pstmt.setString(6, customer.getCustomer_guid());
 
-			pstmt.setString(6, customer.getLast_mdfy_user());
-			pstmt.setString(7, customer.getLast_mdfy_prog());
-
-			pstmt.setString(8, customer.getUpdate_token());
+			pstmt.setString(7, customer.getLast_mdfy_user());
+			pstmt.setString(8, customer.getLast_mdfy_prog());
 
 			int rowsUpdated = pstmt.executeUpdate();
 			success = rowsUpdated > 0;
@@ -90,12 +89,11 @@ public class CustomerAdd implements AppConstants {
 		Customer customer = new Customer();
 
 		customer.setCtry_cd("IN");
+		customer.setCustomer_name("ರಿಲಯನ್ಸ್ ಕಂಪನಿ");
 		customer.setCustomer_guid(UUID.randomUUID().toString());
-		customer.setEmail_ad("john@somewhere.com");
-		customer.setPhone_no("123456789");
+		customer.setEmail_ad("kumar.r@somewhere.com");
+		customer.setPhone_no("77887788");
 		customer.setPhone_type("MOBILE");
-
-		customer.setUpdate_token(UUID.randomUUID().toString());
 
 		customer.setLast_mdfy_prog(CLAZZ);
 		customer.setLast_mdfy_user("SYSTEM");

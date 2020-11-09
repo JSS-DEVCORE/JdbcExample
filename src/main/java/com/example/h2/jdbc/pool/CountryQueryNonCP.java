@@ -3,12 +3,18 @@
  * @author		User
  * @date		Nov 4, 2020
  */
-package com.example.jdbc.pool;
+package com.example.h2.jdbc.pool;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -16,13 +22,42 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.example.constants.AppConstants;
-import com.example.dbservice.HikariConnPoolManager;
 import com.example.model.Country;
-import com.zaxxer.hikari.HikariDataSource;
 
-public class CountryQueryCP implements AppConstants {
+public class CountryQueryNonCP implements AppConstants {
 
-	private static final Logger logger = LogManager.getLogger(CountryQueryCP.class);
+	private static final Logger logger = LogManager.getLogger(CountryQueryNonCP.class);
+	
+	private static Properties props = null;
+
+	static {
+		try {
+			System.out.println("---Reading Property file: " + DB_H2_PROP_FILE);
+			InputStream is = new FileInputStream(new File(DB_H2_PROP_FILE));
+			props = new Properties();
+			props.load(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Get Connection with Auto Commit
+	 * 
+	 * @param autoCommit
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException 
+	 */
+	public Connection getConnection(boolean autoCommit) throws SQLException, ClassNotFoundException {
+		System.out.println("---Getting Connection...");
+		Class.forName("org.h2.Driver"); 
+		Connection conn = DriverManager.getConnection(props.getProperty("jdbc.url"),
+				props.getProperty("jdbc.username"), props.getProperty("jdbc.password"));
+		conn.setAutoCommit(autoCommit);
+		System.out.println("---Got Connection: " + conn);
+		return conn;
+	}
 
 	/**
 	 * Start
@@ -30,14 +65,13 @@ public class CountryQueryCP implements AppConstants {
 	 * @throws SQLException
 	 */
 	private void execute() throws SQLException {
-		HikariDataSource hds = HikariConnPoolManager.getDataSource();
 		try {
 			for (String ctry_cd : new String[] { "IN", "US", "SG", "JP", "X1", "FR", "GB", "AE" }) {
 				long startTime = new Date().getTime();
 				/**
 				 * Search Country
 				 */
-				search(hds, ctry_cd);
+				search(ctry_cd);
 				long endTime = new Date().getTime();
 				/**
 				 * Compute Time Taken
@@ -48,10 +82,6 @@ public class CountryQueryCP implements AppConstants {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			/**
-			 * Shutdown DataSource
-			 */
-			hds.close();
 		}
 	}
 
@@ -61,14 +91,14 @@ public class CountryQueryCP implements AppConstants {
 	 * @param hds
 	 * @param ctry_cd
 	 */
-	private void search(HikariDataSource hds, String ctry_cd) {
+	private void search(String ctry_cd) {
 		logger.info("\n===Reading Country by Ctry: " + ctry_cd);
 		Connection conn = null;
 		try {
 			/**
 			 * Get Connection from DataSource
 			 */
-			conn = hds.getConnection();
+			conn = getConnection(false);
 			logger.info("Connection: " + conn);
 			String sql = " SELECT * FROM country WHERE ctry_cd = ? ";
 			/**
@@ -82,7 +112,7 @@ public class CountryQueryCP implements AppConstants {
 			for (Country country : countries) {
 				logger.info(country);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -103,7 +133,7 @@ public class CountryQueryCP implements AppConstants {
 	 */
 	public static void main(String[] args) {
 		try {
-			new CountryQueryCP().execute();
+			new CountryQueryNonCP().execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

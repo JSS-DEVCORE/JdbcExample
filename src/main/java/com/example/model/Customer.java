@@ -10,20 +10,16 @@ public class Customer implements Serializable {
 	private Long customer_id;
 
 	private String ctry_cd;
+	private String customer_name;
 	private String phone_no;
 	private String phone_type;
 	private String email_ad;
 
 	private String customer_guid;
 
-	private Date update_token_expiry_ts;
-
-	private String update_token;
-
 	private Date init_insert_ts;
 
 	private Date last_mdfy_ts;
-
 	private String last_mdfy_prog;
 	private String last_mdfy_user;
 
@@ -55,6 +51,21 @@ public class Customer implements Serializable {
 	 */
 	public void setCtry_cd(String ctry_cd) {
 		this.ctry_cd = ctry_cd;
+	}
+
+	/**
+	 * @return the customer_name
+	 */
+	public String getCustomer_name() {
+		return customer_name;
+	}
+
+	/**
+	 * @param customer_name
+	 *            the customer_name to set
+	 */
+	public void setCustomer_name(String customer_name) {
+		this.customer_name = customer_name;
 	}
 
 	/**
@@ -115,36 +126,6 @@ public class Customer implements Serializable {
 	 */
 	public void setCustomer_guid(String customer_guid) {
 		this.customer_guid = customer_guid;
-	}
-
-	/**
-	 * @return the update_token_expiry_ts
-	 */
-	public Date getUpdate_token_expiry_ts() {
-		return update_token_expiry_ts;
-	}
-
-	/**
-	 * @param update_token_expiry_ts
-	 *            the update_token_expiry_ts to set
-	 */
-	public void setUpdate_token_expiry_ts(Date update_token_expiry_ts) {
-		this.update_token_expiry_ts = update_token_expiry_ts;
-	}
-
-	/**
-	 * @return the update_token
-	 */
-	public String getUpdate_token() {
-		return update_token;
-	}
-
-	/**
-	 * @param update_token
-	 *            the update_token to set
-	 */
-	public void setUpdate_token(String update_token) {
-		this.update_token = update_token;
 	}
 
 	/**
@@ -214,10 +195,9 @@ public class Customer implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Customer [customer_id=" + customer_id + ", ctry_cd=" + ctry_cd + ", phone_no=" + phone_no
-				+ ", phone_type=" + phone_type + ", email_ad=" + email_ad + ", customer_guid=" + customer_guid
-				+ ", update_token_expiry_ts=" + update_token_expiry_ts + ", update_token=" + update_token
-				+ ", init_insert_ts=" + init_insert_ts + ", last_mdfy_ts=" + last_mdfy_ts + ", last_mdfy_prog="
-				+ last_mdfy_prog + ", last_mdfy_user=" + last_mdfy_user + "]";
+		return "Customer [customer_id=" + customer_id + ", ctry_cd=" + ctry_cd + ", customer_name=" + customer_name
+				+ ", phone_no=" + phone_no + ", phone_type=" + phone_type + ", email_ad=" + email_ad
+				+ ", customer_guid=" + customer_guid + ", init_insert_ts=" + init_insert_ts + ", last_mdfy_ts="
+				+ last_mdfy_ts + ", last_mdfy_prog=" + last_mdfy_prog + ", last_mdfy_user=" + last_mdfy_user + "]";
 	}
 }

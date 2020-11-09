@@ -1,9 +1,11 @@
-package com.example.jdbc;
+package com.example.sqlite.jdbc;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.example.constants.AppConstants;
 import com.example.dbservice.SimpleDbManager;
@@ -14,7 +16,7 @@ import com.example.model.Customer;
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerQuery implements AppConstants {
+public class CustomerQueryUsingDbUtils implements AppConstants {
 
 	/**
 	 * Query by Email Ad
@@ -23,8 +25,6 @@ public class CustomerQuery implements AppConstants {
 	 */
 	private void queryOne(String emailAd) {
 		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		boolean success = false;
 		boolean autoCommit = true;
 		System.out.println("Reading Customer(s) by emailAd: " + emailAd);
@@ -33,42 +33,24 @@ public class CustomerQuery implements AppConstants {
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " SELECT customer_id, ctry_cd, email_ad, phone_no, customer_guid FROM customer WHERE email_ad = ? ";
+			String sql = " SELECT customer_id, ctry_cd, customer_name, email_ad, phone_no, customer_guid "
+					+ " FROM customer WHERE email_ad = ? ";
 			/**
-			 * Prepare Statement
+			 * Handler Bean for ResultSet
 			 */
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, emailAd);
+			BeanListHandler<Customer> beanListHandler = new BeanListHandler<>(Customer.class);
 			/**
-			 * Get Result Set
+			 * Fetch Data
 			 */
-			rs = pstmt.executeQuery();
-
-			Customer customer = null;
-			while (rs.next()) {
-				customer = new Customer();
+			List<Customer> customers = new QueryRunner().query(conn, sql, beanListHandler, new Object[] { emailAd });
+			for (Customer customer : customers) {
 				success = true;
-
-				customer.setCustomer_id(rs.getLong("customer_id"));
-				customer.setCtry_cd(rs.getString("ctry_cd"));
-				customer.setEmail_ad(rs.getString("email_ad"));
-				/**
-				 * You can also use Query Column Number - Not Recommended though
-				 */
-				customer.setCustomer_guid(rs.getString(5));
-
 				System.out.println(customer);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
 				if (conn != null) {
 					conn.close();
 				}
@@ -90,7 +72,7 @@ public class CustomerQuery implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerQuery service = new CustomerQuery();
-		service.queryOne("john@somewhere.com");
+		CustomerQueryUsingDbUtils service = new CustomerQueryUsingDbUtils();
+		service.queryOne("john.hr@somewhere.com");
 	}
 }
