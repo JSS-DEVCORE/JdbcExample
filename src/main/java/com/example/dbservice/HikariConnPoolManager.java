@@ -23,7 +23,7 @@ public class HikariConnPoolManager implements AppConstants {
 
 	private static HikariConfig hcfg = new HikariConfig();
 	private static HikariDataSource hds = null;
-	
+
 	static {
 		logger.info("BEGIN - Creating Connection Pool...");
 		try {
@@ -41,7 +41,7 @@ public class HikariConnPoolManager implements AppConstants {
 			hcfg.setMinimumIdle(Integer.parseInt(props.getProperty("jdbc.initialSize")));
 			hcfg.setAutoCommit(false);
 			hcfg.setDriverClassName(props.getProperty("jdbc.driverClassName"));
-			
+
 			hcfg.addDataSourceProperty("cachePrepStmts", "true");
 			hcfg.addDataSourceProperty("prepStmtCacheSize", "10");
 			hcfg.addDataSourceProperty("prepStmtCacheSqlLimit", "128");
