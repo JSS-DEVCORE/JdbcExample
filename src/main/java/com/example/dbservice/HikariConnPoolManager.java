@@ -17,9 +17,9 @@ import com.example.constants.AppConstants;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-public class HikariPoolStdManager implements AppConstants {
+public class HikariConnPoolManager implements AppConstants {
 
-	private static final Logger logger = LogManager.getLogger(HikariPoolStdManager.class);
+	private static final Logger logger = LogManager.getLogger(HikariConnPoolManager.class);
 
 	private static HikariConfig hcfg = new HikariConfig();
 	private static HikariDataSource hds = null;

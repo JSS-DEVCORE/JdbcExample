@@ -7,8 +7,12 @@
 
 ### Technologies
 * JDK 1.8 and above
-* Maven 3+
-* SQLite
+* Maven 3+ - Build Tool
+* SQLite - Basic Database
+* H2 - Server Mode for Connection Pool
+* Apache DbUtils
+* Apache Log4j - Logging
+* Lombok - Automate BoilerPlate Code
 
 ### Example(s)
 * CRUD Java Example using Non-Connection Pool using SQLite
@@ -20,12 +24,10 @@
 * Build Tool Maven - https://maven.apache.org/
 * Log4J Tutorials - https://mkyong.com/logging/apache-log4j-2-tutorials/
 * SQLite - https://sqlite.org/
+* SQLite Tutorials - https://www.tutorialspoint.com/sqlite/index.htm
 * H2 - http://www.h2database.com/html/tutorial.html#creating_new_databases
 * H2 Home - https://www.h2database.com/html/main.html
-* SQLite Tutorials - https://www.tutorialspoint.com/sqlite/index.htm
 * JDBC Wiki - https://en.wikipedia.org/wiki/Java_Database_Connectivity
-* Spring Boot - https://spring.io/projects/spring-boot
-* Spring Boot with JPA - https://www.javatpoint.com/spring-boot-jpa
 
 ## Authors
 * NEWFOUND SYSTEMS http://www.newfound-systems.com
