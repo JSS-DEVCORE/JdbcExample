@@ -20,7 +20,7 @@
 * Search Multiple Countries using Non-Connection Pool using **H2**
 
 #### References
-* Project Source with Presentation (ppt) - https://github.com/newfound-systems
+* Project Source - https://github.com/newfound-systems and [Presentation](docs/JDBC Insights.pdf)
 * Build Tool **Maven** - https://maven.apache.org/
 * **Log4J** Tutorials - https://mkyong.com/logging/apache-log4j-2-tutorials/
 * **SQLite** - https://sqlite.org/
