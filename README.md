@@ -33,5 +33,10 @@
 ## Authors
 * NEWFOUND SYSTEMS _http://www.newfound-systems.com_
 
+## Tasks
+- [x] Finish my changes
+- [x] Baselined to GitHub
+- [ ] Published as Public Repository
+
 ## Finally
 * :+1: Thanks for your time, stay Safe! :shipit:
