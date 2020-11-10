@@ -75,6 +75,6 @@ public class CustomerUpdate implements AppConstants {
 	 */
 	public static void main(String[] args) {
 		CustomerUpdate service = new CustomerUpdate();
-		service.update("john.hr@somewhere.com", "2233445566");
+		service.update("john.hr@somewhere.com", "5566778899");
 	}
 }

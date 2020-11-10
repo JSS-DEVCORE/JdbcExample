@@ -3,7 +3,7 @@
 ## Getting Started
 
 ### Pre-Requisities
-* Basic understanding of Database and Java
+* Basic understanding of **Java** and **Database**
 
 ### Technologies
 * **JDK** 1.8 and above
@@ -20,7 +20,7 @@
 * Search Multiple Countries using Non-Connection Pool using **H2**
 
 #### References
-* Project Source - https://github.com/newfound-systems and [Presentation](docs/JDBC Insights.pdf)
+* Project **Source** - https://github.com/newfound-systems and [Presentation](docs/JDBC-Insights.pdf)
 * Build Tool **Maven** - https://maven.apache.org/
 * **Log4J** Tutorials - https://mkyong.com/logging/apache-log4j-2-tutorials/
 * **SQLite** - https://sqlite.org/
@@ -32,11 +32,12 @@
 
 ## Authors
 * NEWFOUND SYSTEMS _http://www.newfound-systems.com_
+* Any Questions buzz us at info@newfound-systems.com
 
 ## Tasks
-- [x] Finish my changes
-- [x] Baselined to GitHub
+- [x] Finished changes
+- [x] Baseline to GitHub
 - [ ] Published as Public Repository
 
 ## Finally
-* :+1: Thanks for your time, stay Safe! :shipit:
+* :+1: Thanks for your time and Stay Safe! :shipit:

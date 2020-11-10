@@ -71,6 +71,6 @@ public class CustomerDelete implements AppConstants {
 	 */
 	public static void main(String[] args) {
 		CustomerDelete service = new CustomerDelete();
-		service.delete("john@somewhere.com");
+		service.delete("kumar.r@somewhere.com");
 	}
 }
