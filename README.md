@@ -14,6 +14,16 @@
 * **Apache Log4j** - Logging
 * **Lombok** - Automate BoilerPlate Code
 
+### Topics
+* Introduction to Database and JDBC
+* Usage of SQLite and H2 Databases
+* SQL CRUD Process – Create Read Update Delete
+* Usage of log4j – Logging Framework
+* JDBC Connection Pool using HikariCP
+* Concepts to JPA with Spring JPA
+* Introduction to Database Trigger
+* Usage of Google Guava Cache for Static Data
+
 ### Example(s)
 * **CRUD** Java Example using Non-Connection Pool using **SQLite**
 * Search Multiple Countries using Non-Connection Pool using **SQLite**
