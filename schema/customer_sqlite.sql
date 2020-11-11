@@ -44,3 +44,23 @@ CREATE TRIGGER delete_customer BEFORE DELETE ON customer
 				old.email_ad, old.customer_guid, old.init_insert_ts, old.last_mdfy_ts, 
 					old.last_mdfy_user, old.last_mdfy_prog);
   END;
+  
+CREATE TABLE country (
+	ctry_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	ctry_cd char(2) NOT NULL,
+	ctry_nm varchar(65) NOT NULL
+);
+
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('IN', 'INDIA');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('US', 'UNITED STATES OF AMERICA');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('JP', 'JAPAN');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('FR', 'FRANCE');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('GB', 'GREAT BRITAN');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('AE', 'UNITED ARAB EMIRATES');
+INSERT INTO country (ctry_cd, ctry_nm) VALUES ('SG', 'SINGAPORE');
+
+CREATE VIEW vw_customer 
+	AS SELECT customer_id, customer.ctry_cd, country.ctry_nm, customer_name, 
+	phone_no, email_ad, customer_guid, last_mdfy_ts
+	FROM customer 
+	INNER JOIN country ON customer.ctry_cd = country.ctry_cd;

@@ -89,7 +89,7 @@ public class CustomerAdd implements AppConstants {
 		Customer customer = new Customer();
 
 		customer.setCtry_cd("IN");
-		customer.setCustomer_name("ರಿಲಯನ್ಸ್ ಕಂಪನಿ");
+		customer.setCustomer_name("Reliance");
 		customer.setCustomer_guid(UUID.randomUUID().toString());
 		customer.setEmail_ad("kumar.r@somewhere.com");
 		customer.setPhone_no("77887788");
