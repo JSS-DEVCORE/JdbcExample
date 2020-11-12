@@ -26,8 +26,9 @@
 
 ### Example(s)
 * **CRUD** Java Example using Non-Connection Pool using **SQLite**
-* Search Multiple Countries using Non-Connection Pool using **SQLite**
-* Search Multiple Countries using Non-Connection Pool using **H2**
+* Search Countries using Non-Connection Pool using **SQLite**
+* Search Countries using HikariCP Connection Pool using **H2**
+* Search Countries using Google Guava Cache
 
 #### References
 * Project **Source** - https://github.com/newfound-systems and [Presentation](docs/JDBC-Insights.pdf)
@@ -47,7 +48,7 @@
 ## Tasks
 - [x] Finished changes
 - [x] Baseline to GitHub
-- [ ] Published as Public Repository
+- [x] Published as Public Repository
 
 ## Finally
 * :+1: Thanks for your time and Stay Safe! :shipit:
