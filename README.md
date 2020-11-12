@@ -8,10 +8,10 @@
 ### Technologies
 * **JDK** 1.8 and above
 * **Maven** 3+ - Build Tool
-* **SQLite** - Basic Database
-* **H2** - Server Mode for Connection Pool
-* **Apache DbUtils** - Third Party API
-* **Apache Log4j** - Logging
+* **SQLite** - SQLite Database
+* **H2** - H2 Database used for Connection Pool
+* **Apache DbUtils** - Third Party JDBC Wrapper API
+* **Apache Log4j** - Logging Framework
 * **Lombok** - Automate BoilerPlate Code
 
 ### Topics
