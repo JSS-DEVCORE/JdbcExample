@@ -1,7 +1,5 @@
 package com.example.sqlite.jdbc;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +8,12 @@ import java.util.UUID;
 
 import com.example.constants.AppConstants;
 import com.example.dbservice.SimpleDbManager;
-import com.example.image.service.ImageService;
 import com.example.model.Customer;
 
 /**
- * @project		JdbcExample - Add Customer
- * @author		User
- * @date		Nov 2, 2020
+ * @project JdbcExample - Add Customer
+ * @author User
+ * @date Nov 2, 2020
  */
 public class CustomerAdd implements AppConstants {
 
@@ -26,13 +23,12 @@ public class CustomerAdd implements AppConstants {
 	 * Add Customer
 	 * 
 	 * @param customer
-	 * @param imageFile 
 	 * @return
 	 */
-	private boolean add(Customer customer, String imageFile) {
+	private boolean add(Customer customer) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
+
 		boolean success = false;
 		boolean autoCommit = true;
 		System.out.println("Adding Customer...");
@@ -43,8 +39,8 @@ public class CustomerAdd implements AppConstants {
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
 			String sql = " INSERT INTO customer (ctry_cd, customer_name, phone_no, phone_type, email_ad, customer_guid, "
-					+ " last_mdfy_user, last_mdfy_prog, init_insert_ts, last_mdfy_ts, photo_id_bytes) "
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?) ";
+					+ " last_mdfy_user, last_mdfy_prog, init_insert_ts, last_mdfy_ts) "
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ";
 			/**
 			 * Prepare Statement
 			 */
@@ -61,17 +57,10 @@ public class CustomerAdd implements AppConstants {
 
 			pstmt.setString(7, customer.getLast_mdfy_user());
 			pstmt.setString(8, customer.getLast_mdfy_prog());
-			
-			byte[] photo_bytes = ImageService.encodeAsBytes(imageFile);
-			pstmt.setBytes(9, photo_bytes);
-		
+
 			int rowsUpdated = pstmt.executeUpdate();
 			success = rowsUpdated > 0;
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -95,7 +84,7 @@ public class CustomerAdd implements AppConstants {
 	 * Main
 	 * 
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		CustomerAdd service = new CustomerAdd();
@@ -110,7 +99,7 @@ public class CustomerAdd implements AppConstants {
 
 		customer.setLast_mdfy_prog(CLAZZ);
 		customer.setLast_mdfy_user("SYSTEM");
-		
-		service.add(customer, "images/thanks.png");
+
+		service.add(customer);
 	}
 }

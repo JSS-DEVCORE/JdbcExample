@@ -19,9 +19,7 @@ public class Customer implements Serializable {
 	private String email_ad;
 
 	private String customer_guid;
-	
-	private String photo_id_bytes;
-	
+		
 	private Date init_insert_ts;
 
 	private Date last_mdfy_ts;

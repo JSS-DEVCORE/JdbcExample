@@ -12,70 +12,69 @@ import java.util.Base64;
 
 import com.example.constants.AppConstants;
 import com.example.dbservice.SimpleDbManager;
-import com.example.model.Customer;
+import com.example.model.CustomerImage;
 
 /**
- * @project JdbcExample - Query Customer
+ * @project JdbcExample - Query Customer Image
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerReadPhoto implements AppConstants {
+public class CustomerQueryImage implements AppConstants {
 
 	/**
-	 * Query by Email Ad
+	 * Query Customer Image
 	 * 
-	 * @param emailAd
+	 * @param customer_id
 	 */
-	private void queryOne(String emailAd) {
+	private void queryOne(long customer_id) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		boolean success = false;
 		boolean autoCommit = true;
-		System.out.println("Reading Customer(s) by emailAd: " + emailAd);
+		System.out.println("Reading Customer Image by Customer Id...");
 		try {
 			/**
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " SELECT customer_id, ctry_cd, customer_name, photo_id_bytes "
-					+ " FROM customer WHERE ctry_cd = ? AND email_ad = ? ";
+			String sql = " SELECT * FROM customer_image WHERE customer_id = ? ";
 			/**
 			 * Prepare Statement
 			 */
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "US");
-			pstmt.setString(2, emailAd);
+			pstmt.setLong(1, customer_id);
 			/**
 			 * Get Result Set
 			 */
 			rs = pstmt.executeQuery();
 
-			Customer customer = null;
+			CustomerImage customerImage = null;
 			while (rs.next()) {
-				customer = new Customer();
+				customerImage = new CustomerImage();
 				success = true;
 
-				customer.setCustomer_id(rs.getLong("customer_id"));
-				customer.setCtry_cd(rs.getString("ctry_cd"));
-				customer.setCustomer_name(rs.getString("customer_name"));
+				customerImage.setCustomer_image_id(rs.getLong("customer_image_id"));
+				customerImage.setCustomer_id(rs.getLong("customer_id"));
+				customerImage.setImage_type(rs.getString("image_type"));
 				/**
 				 * Saving Image from Stored byte Array
 				 */
-				byte[] photo_bytes = rs.getBytes("photo_id_bytes");
+				byte[] imageBytes = rs.getBytes("image");
 				/**
 				 * Assign Base64 for Client Transport
 				 */
-				customer.setPhoto_id_bytes(Base64.getEncoder().encodeToString(photo_bytes));
-				String imageOutFile = "images/customer_photo_" + customer.getCustomer_id() + ".png";
+				customerImage.setImage(Base64.getEncoder().encodeToString(imageBytes));
+				String imageOutFile = "images/customer_image_" + customerImage.getCustomer_id() + "_"
+						+ customerImage.getCustomer_image_id() + ".png";
 				/**
 				 * Read back to ensure Image is correct
 				 */
 				try (OutputStream out = new BufferedOutputStream(new FileOutputStream(imageOutFile))) {
-					out.write(photo_bytes);
+					out.write(imageBytes);
 				}
 				System.out.println("Check Image: " + imageOutFile);
-				System.out.println(customer);
+				System.out.println(customerImage);
 			}
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
@@ -95,9 +94,9 @@ public class CustomerReadPhoto implements AppConstants {
 			}
 		}
 		if (!success) {
-			System.err.println("Customer NOT FOUND for emailAd: " + emailAd);
+			System.err.println("Customer Image NOT FOUND for customer_id: " + customer_id);
 		} else {
-			System.out.println("Done - Reading Customer(s) by emailAd: " + emailAd);
+			System.out.println("Done - Reading Customer(s) by customer_id: " + customer_id);
 		}
 		System.out.println("=================================");
 	}
@@ -108,8 +107,7 @@ public class CustomerReadPhoto implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerReadPhoto service = new CustomerReadPhoto();
-		service.queryOne("john.hr@somewhere.com");
-		// service.queryOne("kumar.r@somewhere.com");
+		CustomerQueryImage service = new CustomerQueryImage();
+		service.queryOne(1L);
 	}
 }
