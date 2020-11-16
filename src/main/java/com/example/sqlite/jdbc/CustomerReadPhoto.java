@@ -67,9 +67,14 @@ public class CustomerReadPhoto implements AppConstants {
 				 * Assign Base64 for Client Transport
 				 */
 				customer.setPhoto_id_bytes(Base64.getEncoder().encodeToString(photo_bytes));
-				try (OutputStream out = new BufferedOutputStream(new FileOutputStream("images/customer_photo.png"))) {
+				String imageOutFile = "images/customer_photo_" + customer.getCustomer_id() + ".png";
+				/**
+				 * Read back to ensure Image is correct
+				 */
+				try (OutputStream out = new BufferedOutputStream(new FileOutputStream(imageOutFile))) {
 					out.write(photo_bytes);
 				}
+				System.out.println("Check Image: " + imageOutFile);
 				System.out.println(customer);
 			}
 		} catch (SQLException | IOException e) {
