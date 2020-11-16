@@ -1,14 +1,7 @@
 /**
- * <pre><b>NEWFOUND SYSTEMS</b> Proprietary/Confidential. 
- * Copyright (c) 2009 till present with NEWFOUND.
- * Usage is subject to terms and conditions between <b>NEWFOUND and DHL Express</b>
- * 
- * @project		JdbcExample
+ * @project		JdbcExample - Image Service
  * @author		User
  * @date		Nov 16, 2020
- */
-/**
- * 
  */
 package com.example.image.service;
 
