@@ -12,6 +12,16 @@ CREATE TABLE customer (
 	[last_mdfy_prog] [varchar](65) NOT NULL
 );
 
+CREATE TABLE customer_image (
+	[customer_image_id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	[customer_id] INTEGER NOT NULL,
+	[image_type] [varchar](12) NOT NULL,
+	[image] [byte] NOT NULL,
+	[last_mdfy_ts] [datetime] NOT NULL,
+	[last_mdfy_user] [varchar](65) NOT NULL,
+	[last_mdfy_prog] [varchar](65) NOT NULL
+);
+
 CREATE TABLE customer_audit (
     [customer_audit_id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	[customer_id] INTEGER NOT NULL,
