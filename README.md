@@ -29,6 +29,7 @@
 * Search Countries using Non-Connection Pool using **SQLite**
 * Search Countries using HikariCP Connection Pool using **H2**
 * Search Countries using Google Guava Cache
+* Ability to Persist Photo in bytes and read back.
 
 #### References
 * Project **Source** - https://github.com/newfound-systems and [Presentation](docs/JDBC-Insights.pdf)

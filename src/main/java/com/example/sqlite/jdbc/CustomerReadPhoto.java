@@ -1,9 +1,14 @@
 package com.example.sqlite.jdbc;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import com.example.constants.AppConstants;
 import com.example.dbservice.SimpleDbManager;
@@ -14,7 +19,7 @@ import com.example.model.Customer;
  * @author User
  * @date Nov 2, 2020
  */
-public class CustomerQuery implements AppConstants {
+public class CustomerReadPhoto implements AppConstants {
 
 	/**
 	 * Query by Email Ad
@@ -33,13 +38,13 @@ public class CustomerQuery implements AppConstants {
 			 * Get Connection
 			 */
 			conn = SimpleDbManager.getConnection(autoCommit);
-			String sql = " SELECT customer_id, ctry_cd, customer_name, email_ad, phone_no, customer_guid "
+			String sql = " SELECT customer_id, ctry_cd, customer_name, photo_id_bytes "
 					+ " FROM customer WHERE ctry_cd = ? AND email_ad = ? ";
 			/**
 			 * Prepare Statement
 			 */
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "IN");
+			pstmt.setString(1, "US");
 			pstmt.setString(2, emailAd);
 			/**
 			 * Get Result Set
@@ -54,15 +59,18 @@ public class CustomerQuery implements AppConstants {
 				customer.setCustomer_id(rs.getLong("customer_id"));
 				customer.setCtry_cd(rs.getString("ctry_cd"));
 				customer.setCustomer_name(rs.getString("customer_name"));
-				customer.setEmail_ad(rs.getString("email_ad"));
+				customer.setPhoto_id_bytes(rs.getString("photo_id_bytes"));
 				/**
-				 * You can also use Query Column Number - Not Recommended though
+				 * Saving Image from Stored byte Array
 				 */
-				customer.setCustomer_guid(rs.getString(5));
-
+				byte[] photo_bytes = rs.getBytes("photo_id_bytes");
+				try (OutputStream out = new BufferedOutputStream(new FileOutputStream("images/customer_photo.png"))) {
+					out.write(photo_bytes);
+				}
+				System.out.println("Photo b64: " + Base64.getEncoder().encodeToString(photo_bytes));
 				System.out.println(customer);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -93,8 +101,8 @@ public class CustomerQuery implements AppConstants {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CustomerQuery service = new CustomerQuery();
-//		service.queryOne("john.hr@somewhere.com");
-		service.queryOne("kumar.r@somewhere.com");
+		CustomerReadPhoto service = new CustomerReadPhoto();
+		service.queryOne("john.hr@somewhere.com");
+//		service.queryOne("kumar.r@somewhere.com");
 	}
 }

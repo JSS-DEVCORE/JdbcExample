@@ -47,6 +47,7 @@ public class CustomerUpdate implements AppConstants {
 			pstmt.setString(2, emailAd);
 			
 			int rowsUpdated = pstmt.executeUpdate();
+			System.out.println("Rows Updated: " + rowsUpdated);
 			success = rowsUpdated > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();

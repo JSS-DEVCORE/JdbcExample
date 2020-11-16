@@ -133,9 +133,9 @@ public class CustomerAddWithTxn implements AppConstants {
 			Customer customer = new Customer();
 
 			customer.setCtry_cd("UK");
-			customer.setCustomer_name("John Howard");
+			customer.setCustomer_name("Trevor Smith");
 			customer.setCustomer_guid(UUID.randomUUID().toString());
-			customer.setEmail_ad("john.hr@somewhere.com");
+			customer.setEmail_ad("trevor.s@somewhere.com");
 			customer.setPhone_no("88998899");
 			customer.setPhone_type("MOBILE");
 
@@ -150,7 +150,7 @@ public class CustomerAddWithTxn implements AppConstants {
 				/**
 				 * Update
 				 */
-				success = update(conn, "john.hr@somewhere.com", "1-800-CALL-HELP");
+				success = update(conn, "trevor.s@somewhere.com", "1-800-CALL-HELP");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
