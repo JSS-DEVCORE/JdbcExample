@@ -59,11 +59,14 @@ public class CustomerReadPhoto implements AppConstants {
 				customer.setCustomer_id(rs.getLong("customer_id"));
 				customer.setCtry_cd(rs.getString("ctry_cd"));
 				customer.setCustomer_name(rs.getString("customer_name"));
-				customer.setPhoto_id_bytes(rs.getString("photo_id_bytes"));
 				/**
 				 * Saving Image from Stored byte Array
 				 */
 				byte[] photo_bytes = rs.getBytes("photo_id_bytes");
+				/**
+				 * Assign Base64 for Client Transport
+				 */
+				customer.setPhoto_id_bytes(Base64.getEncoder().encodeToString(photo_bytes));
 				try (OutputStream out = new BufferedOutputStream(new FileOutputStream("images/customer_photo.png"))) {
 					out.write(photo_bytes);
 				}
@@ -103,6 +106,6 @@ public class CustomerReadPhoto implements AppConstants {
 	public static void main(String[] args) {
 		CustomerReadPhoto service = new CustomerReadPhoto();
 		service.queryOne("john.hr@somewhere.com");
-//		service.queryOne("kumar.r@somewhere.com");
+		// service.queryOne("kumar.r@somewhere.com");
 	}
 }
