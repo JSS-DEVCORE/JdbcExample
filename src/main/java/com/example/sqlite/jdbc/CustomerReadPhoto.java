@@ -70,7 +70,6 @@ public class CustomerReadPhoto implements AppConstants {
 				try (OutputStream out = new BufferedOutputStream(new FileOutputStream("images/customer_photo.png"))) {
 					out.write(photo_bytes);
 				}
-				System.out.println("Photo b64: " + Base64.getEncoder().encodeToString(photo_bytes));
 				System.out.println(customer);
 			}
 		} catch (SQLException | IOException e) {
